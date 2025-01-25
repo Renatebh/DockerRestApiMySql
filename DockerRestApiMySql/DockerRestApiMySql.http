@@ -1,0 +1,6 @@
+@DockerRestApiMySql_HostAddress = http://localhost:5160
+
+GET {{DockerRestApiMySql_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
