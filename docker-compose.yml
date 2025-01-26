@@ -1,0 +1,44 @@
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports: 
+      - "80:80"
+    networks:
+      - productnetwork
+    depends_on:
+      - dockerrestapimysql
+  
+  dockerrestapimysql:
+    image: ${DOCKER_REGISTRY-}dockerrestapimysql
+    build:
+      context: ./DockerRestApiMySql
+      dockerfile: Dockerfile
+    networks:
+      - productnetwork
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    restart: on-failure
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: gokstad
+      MYSQL_DATABASE: productdb
+    networks:
+      - productnetwork
+    volumes:
+      - mysql_data:/var/lib/mysql 
+volumes:
+  mysql_data:  
+
+
+networks:
+  productnetwork:
+    driver: bridge
+    
+        
+    

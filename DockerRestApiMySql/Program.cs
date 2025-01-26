@@ -1,6 +1,8 @@
 
+using System.Diagnostics;
 using DockerRestApiMySql.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Writers;
 
 namespace DockerRestApiMySql
 {
@@ -27,13 +29,14 @@ namespace DockerRestApiMySql
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();
+            ApplyMigrations(app);
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
 
             app.UseHttpsRedirection();
 
@@ -44,5 +47,27 @@ namespace DockerRestApiMySql
 
             app.Run();
         }
+
+        private static void ApplyMigrations(WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ProductContext>();
+
+                // Check and apply pending migrations
+                var pendingMigrations = dbContext.Database.GetPendingMigrations();
+                if (pendingMigrations.Any())
+                {
+                    Debug.WriteLine("Applying pending migrations...");
+                    dbContext.Database.Migrate();
+                    Debug.WriteLine("Migrations applied successfully.");
+                }
+                else
+                {
+                    Debug.WriteLine("No pending migrations found.");
+                }
+            }
+        }
     }
 }
+
