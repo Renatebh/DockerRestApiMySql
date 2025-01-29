@@ -40,24 +40,68 @@ Før du begynner, sørg for at du har følgende installert på systemet ditt:
 
 REST API-et er bygget med .NET Entity Framework og konfigurerer en tilkobling til MySQL-databasen ved hjelp av en tilkoblingsstreng definert i `appsettings.json`.
 
-## Bygg og kjør prosjektet, fra rootmappen der yml filen er.
+### Docker-hub repository
+
+Docker Hub Repository
+Alle Docker-images som brukes i dette prosjektet finnes her:
+
+https://hub.docker.com/repository/docker/renatehem/dockernginx/tags
+--------------------------------------------------------------------
+
+### Bygg og kjør prosjektet, fra rootmappen der yml filen er.
 
 1. **Start Docker**:
 
    ```bash
    docker-compose up -d
-
-
 2. **Verifiser at tjenestene kjører**:
 
    ```bash
    docker-compose ps
-   
-
 3. **Tilgang til applikasjonen**:
 
-Åpne nettleseren og naviger til http://localhost for å få tilgang til applikasjonen.
+Åpne postman eller ett annet api vertøy for å få tilgang til databasen.
 
+###Endepunkt
+
+For å hente alle produktene:
+````
+GET http://localhost/product
+````
+For å hente ett spesifikt produkt:
+````
+GET http://localhost/product/id
+````
+For å poste nye produkter:
+````
+POSTE http://localhost/product
+````
+For å oppdatere ett spesifikt produkt:
+````
+PUT http://localhost/product/id
+````
+For å slette ett spesifikt produkt:
+````
+DELETE http://localhost/product/id
+````
+## Eksempler på JSON-data.
+Data som sendes til apiet for PUT skal strukturers slik
+````json:
+{
+        "id": 4,
+        "name": "Slim jacket",
+        "description": "Leather",
+        "price": 4990
+}
+````
+Data for POST request struktureres slik:
+````json: 
+{
+        "name": "Slim jacket",
+        "description": "Leather",
+        "price": 4990
+}
+````
 ## Database
 MySQL-databasen er konfigurert med følgende miljøvariabler:
 

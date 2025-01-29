@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx:latest
+    image: renatehem/dockernginx:nginx
     container_name: nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -13,7 +13,7 @@ services:
       - dockerrestapimysql
   
   dockerrestapimysql:
-    image: ${DOCKER_REGISTRY-}dockerrestapimysql
+    image: renatehem/dockerrestapimysql:restapi 
     container_name: restapi
     build:
       context: ./DockerRestApiMySql
