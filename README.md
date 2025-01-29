@@ -39,6 +39,11 @@ Før du begynner, sørg for at du har følgende installert på systemet ditt:
 ### REST API
 
 REST API-et er bygget med .NET Entity Framework og konfigurerer en tilkobling til MySQL-databasen ved hjelp av en tilkoblingsstreng definert i `appsettings.json`.
+### Github repository
+
+Link til Github: 
+
+https://github.com/Renatebh/DockerRestApiMySql
 
 ### Docker-hub repository
 
@@ -46,7 +51,7 @@ Docker Hub Repository
 Alle Docker-images som brukes i dette prosjektet finnes her:
 
 https://hub.docker.com/repository/docker/renatehem/dockernginx/tags
---------------------------------------------------------------------
+
 
 ### Bygg og kjør prosjektet, fra rootmappen der yml filen er.
 
