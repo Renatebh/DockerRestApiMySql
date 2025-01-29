@@ -1,7 +1,7 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+USER root
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
@@ -23,3 +23,10 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "DockerRestApiMySql.dll"]
+
+# Legg til wait-for-it-skriptet
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+# Kjør applikasjonen din etter at MySQL er klar
+ENTRYPOINT ["/wait-for-it.sh", "mysql:3306", "--", "dotnet", "DockerRestApiMySql.dll"]

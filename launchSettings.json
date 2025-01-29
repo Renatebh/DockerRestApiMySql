@@ -1,11 +1,15 @@
 {
-  "profiles": {
-    "Docker Compose": {
-      "commandName": "DockerCompose",
-      "commandVersion": "1.0",
-      "serviceActions": {
-        "dockerrestapimysql": "StartDebugging"
-      }
+    "profiles": {
+        "Docker Compose": {
+            "commandName": "DockerCompose",
+            "commandVersion": "1.0",
+            "serviceActions": {
+                "dockerrestapimysql": "StartDebugging"
+            },
+            "environmentVariables": {
+                "ASPNETCORE_URLS": "http://+:8080"
+            },
+            "applicationUrl": "http://dockerrestapimysql:8080"
+        }
     }
-  }
 }

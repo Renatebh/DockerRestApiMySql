@@ -1,6 +1,7 @@
 
 using System.Diagnostics;
 using DockerRestApiMySql.Data;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Writers;
 
@@ -21,14 +22,24 @@ namespace DockerRestApiMySql
 
             builder.Services.AddScoped<IProductRepo, SqlProductRepo>();
 
-
+            builder.WebHost.UseUrls("http://+:8080"); // Viktig for Docker
 
             builder.Services.AddDbContext<ProductContext>(options =>
             options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            // Legg til støtte for proxy-headerne
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
             var app = builder.Build();
+
+            // Bruk proxy-headerne
+            app.UseForwardedHeaders();
+
             ApplyMigrations(app);
 
                 // Configure the HTTP request pipeline.

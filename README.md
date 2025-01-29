@@ -13,12 +13,9 @@ Før du begynner, sørg for at du har følgende installert på systemet ditt:
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Prosjektstruktur
 
-Prosjektet har følgende struktur:
 
-. ├── docker-compose.yml ├── nginx │ └── nginx.conf └── DockerRestApiMySql ├── Dockerfile └── Program.cs
-
+## Mapper
 
 - `docker-compose.yml`: Definerer og konfigurerer alle tjenestene.
 - `nginx/nginx.conf`: Konfigurasjonsfil for Nginx.
@@ -28,11 +25,12 @@ Prosjektet har følgende struktur:
 
 ### Docker Compose
 
-`docker-compose.yml` definerer tre tjenester:
+
+`docker-compose.yml` definerer tre tjenester/containere:
 
 1. **Nginx**: Konfigurert til å lytte på port 80 og videresende forespørsler til REST API-et.
 2. **REST API**: Bygget fra `DockerRestApiMySql`-katalogen og koblet til MySQL-databasen.
-3. **MySQL**: Bruker offisiell MySQL 8.0-bilde og setter opp databasen `productdb`.
+3. **MySQL**: Bruker offisielt MySQL 8.0-bilde og setter opp databasen `productdb`.
 
 ### Nginx
 
@@ -40,47 +38,42 @@ Prosjektet har følgende struktur:
 
 ### REST API
 
-REST API-et er bygget med .NET Framework og konfigurerer en tilkobling til MySQL-databasen ved hjelp av en tilkoblingsstreng definert i `appsettings.json`.
+REST API-et er bygget med .NET Entity Framework og konfigurerer en tilkobling til MySQL-databasen ved hjelp av en tilkoblingsstreng definert i `appsettings.json`.
 
-## Bygg og Kjør
+## Bygg og kjør prosjektet, fra rootmappen der yml filen er.
 
-1. **Bygg og start tjenestene**:
+1. **Start Docker**:
 
    ```bash
-   docker-compose up --build -d
+   docker-compose up -d
 
 
-Verifiser at tjenestene kjører:
+2. **Verifiser at tjenestene kjører**:
 
-bash
-Kopier
-Rediger
-docker-compose ps
-Tilgang til applikasjonen:
+   ```bash
+   docker-compose ps
+   
+
+3. **Tilgang til applikasjonen**:
 
 Åpne nettleseren og naviger til http://localhost for å få tilgang til applikasjonen.
 
-Database
+## Database
 MySQL-databasen er konfigurert med følgende miljøvariabler:
 
-MYSQL_ROOT_PASSWORD: Rotpassordet for MySQL.
-MYSQL_DATABASE: Navnet på databasen som skal opprettes (productdb).
-Merk
+`MYSQL_ROOT_PASSWORD`: Rotpassordet for MySQL.
+
+`MYSQL_DATABASE`: Navnet på databasen som skal opprettes (productdb).
+
+### Merk:
 Sørg for at port 80 er ledig på vertsmaskinen din før du starter tjenestene.
 
 For å stoppe og fjerne tjenestene, kjør:
 
-bash
-Kopier
-Rediger
+````bash
 docker-compose down
-Lisens
-Dette prosjektet er lisensiert under MIT-lisensen. Se LICENSE for detaljer.
+````
 
-bash
-Kopier
-Rediger
 
-Denne README-filen gir en oversikt over prosjektet, konfigurasjonen, og hvordan du bygger og kjører applikasjonen.
-::contentReference[oaicite:0]{index=0}
+
  
