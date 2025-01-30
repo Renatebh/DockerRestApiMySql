@@ -13,7 +13,7 @@ services:
       - dockerrestapimysql
   
   dockerrestapimysql:
-    image: renatehem/dockerrestapimysql:restapi 
+    image: renatehem/dockernginx:restapi 
     container_name: restapi
     build:
       context: ./DockerRestApiMySql
