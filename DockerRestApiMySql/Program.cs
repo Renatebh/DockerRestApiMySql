@@ -22,14 +22,13 @@ namespace DockerRestApiMySql
 
             builder.Services.AddScoped<IProductRepo, SqlProductRepo>();
 
-            builder.WebHost.UseUrls("http://+:8080"); // Viktig for Docker
+            builder.WebHost.UseUrls("http://+:8080");
 
             builder.Services.AddDbContext<ProductContext>(options =>
             options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            // Legg til støtte for proxy-headerne
             builder.Services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -37,12 +36,11 @@ namespace DockerRestApiMySql
 
             var app = builder.Build();
 
-            // Bruk proxy-headerne
+     
             app.UseForwardedHeaders();
 
             ApplyMigrations(app);
 
-                // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
                 {
                     app.UseSwagger();
@@ -65,7 +63,6 @@ namespace DockerRestApiMySql
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ProductContext>();
 
-                // Check and apply pending migrations
                 var pendingMigrations = dbContext.Database.GetPendingMigrations();
                 if (pendingMigrations.Any())
                 {
